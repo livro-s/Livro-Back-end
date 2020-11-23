@@ -4,7 +4,7 @@
     "target": "es2020",
     "lib": ["ES6"],
     "outDir": "dist",
-
+    "esModuleInterop": true,
     "strictPropertyInitialization": false,
     "moduleResolution": "Node",
     "sourceMap": true,
