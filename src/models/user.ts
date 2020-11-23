@@ -10,6 +10,7 @@ export class User extends Model {
   name: string;
   school: string;
   studentNo: string;
+  admin: boolean;
 }
 
 User.init(
@@ -40,6 +41,11 @@ User.init(
       type: Sequelize.CHAR(4),
       allowNull: false,
       field: "student_no",
+    },
+    admin: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   { sequelize, modelName: "user" }
