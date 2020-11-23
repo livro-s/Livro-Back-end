@@ -5,6 +5,7 @@ export class Notice extends Model {
   uuid: string;
   title: string;
   content: string;
+  coverImg: string;
   userUuid: string;
   createdAt: string;
 }
@@ -21,6 +22,10 @@ Notice.init(
     },
     content: {
       type: Sequelize.STRING(500),
+    },
+    coverImg: {
+      type: Sequelize.STRING(50),
+      field: "cover_img",
     },
     userUuid: {
       type: Sequelize.STRING(50),
