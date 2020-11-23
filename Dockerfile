@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-WORKDIR /Livro-Back-end
-
-COPY /Livro-Back-end
+RUN mkdir /app
+WORKDIR /app
+ADD . /app
 
 CMD npm start
