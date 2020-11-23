@@ -6,6 +6,7 @@ export class Loan extends Model {
   userUuid: string;
   bookId: string;
   createdAt: string;
+  deletedAt: string;
 }
 
 Loan.init(
@@ -25,9 +26,12 @@ Loan.init(
       field: "book_id",
     },
     createdAt: {
-      type: Sequelize.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      type: Sequelize.STRING(30),
       field: "created_at",
+    },
+    deletedAt: {
+      type: Sequelize.STRING(30),
+      field: "deleted_at",
     },
   },
   { sequelize, modelName: "loan" }
