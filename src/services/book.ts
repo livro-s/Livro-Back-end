@@ -15,13 +15,16 @@ export const searchByWord = async (word: string, page: number) => {
 
   const result = await Promise.all(
     books.map(async (book) => {
+      const { loanable, returnDate } = await getLoanState(book);
       return {
+        id: book.id,
         title: book.title,
         author: book.author,
         publisher: book.publisher,
         category: book.category,
         location: book.location,
-        loanable: await isLoanable(book),
+        loanable: loanable,
+        returnDate: returnDate,
         image: book.image,
       };
     })
@@ -30,12 +33,25 @@ export const searchByWord = async (word: string, page: number) => {
   return result;
 };
 
-const isLoanable = async (book: Book) => {
+export const getBookInfo = async (id: string) => {
+  return await Book.findOne({
+    where: {
+      id: id,
+    },
+  });
+};
+
+const getLoanState = async (book: Book) => {
   const loaned = await Loan.findAll({
     where: {
       bookId: book.id,
     },
   });
 
-  return !Boolean(loaned.length);
+  const loanable = !Boolean(loaned.length);
+  let returnDate;
+  if (!loanable) {
+    returnDate = loaned[0].deletedAt;
+  }
+  return { loanable: loanable, returnDate: returnDate };
 };
