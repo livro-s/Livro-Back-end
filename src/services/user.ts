@@ -54,7 +54,7 @@ export const getBookLoans = async (uuid: string) => {
       user_uuid: uuid,
     },
   });
-  console.log(list);
+
   const result = await Promise.all(
     list.map(async (value) => {
       const book = await getBookInfo(value.bookId);
@@ -68,6 +68,5 @@ export const getBookLoans = async (uuid: string) => {
     })
   );
 
-  console.log(result, "hi");
   return result;
 };
