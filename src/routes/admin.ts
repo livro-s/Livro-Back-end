@@ -31,5 +31,10 @@ router.get(
   authMiddleware,
   tryCatchMiddleware.Error(AdminController.getDelaiedBooks)
 );
+router.delete(
+  "/loan/:id",
+  authMiddleware,
+  tryCatchMiddleware.Error(AdminController.returnBook)
+);
 
 export default router;

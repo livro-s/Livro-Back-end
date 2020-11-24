@@ -87,3 +87,14 @@ export const getDelaiedBooks = async (
   );
   res.status(200).json(books);
 };
+
+export const returnBook = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const admin: boolean = req["decoded"];
+  const bookId: string = req.params.id;
+  await AdminService.returnBookService(admin, bookId);
+  res.status(200).end();
+};
