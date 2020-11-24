@@ -7,6 +7,7 @@ import { mkAccess } from "../utils/mkToken";
 import { hashPassword } from "../utils/hash";
 import { mkId } from "../utils/uuid";
 import { Op } from "sequelize";
+import { Book } from "../models/book";
 
 export const adminAuthService = async (
   adminAuthDTO: IAdminAuthDTO,
@@ -106,7 +107,17 @@ export const getLonedBooksService = async (
   const user: User = await findOneUserByUuid(uuid);
   const loans = await Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.gte]: date } },
-    attributes: ["uuid", "bookId", "userUuid"],
+    attributes: ["uuid"],
+    include: [
+      {
+        model: User,
+        attributes: ["name", "studentNo"],
+      },
+      {
+        model: Book,
+        attributes: ["title", "author", "publisher", "category"],
+      },
+    ],
     order: [["createdAt", "DESC"]],
     limit: 3,
     offset: (page - 1) * 3,
@@ -124,7 +135,17 @@ export const getDelaiedBooksService = async (
   const user: User = await findOneUserByUuid(uuid);
   return Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.lt]: date } },
-    attributes: ["uuid", "bookId", "userUuid"],
+    attributes: ["uuid"],
+    include: [
+      {
+        model: User,
+        attributes: ["name", "studentNo"],
+      },
+      {
+        model: Book,
+        attributes: ["title", "author", "publisher", "category"],
+      },
+    ],
     order: [["createdAt", "DESC"]],
     limit: 3,
     offset: (page - 1) * 3,
