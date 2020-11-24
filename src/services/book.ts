@@ -1,6 +1,9 @@
 import { Book } from "../models/book";
 import { Loan } from "../models/loan";
 import { Op } from "sequelize";
+import { HttpError } from "../exception/exception";
+import { mkId } from "../utils/uuid";
+import { IBookLoan } from "../interfaces/book";
 
 export const searchByWord = async (word: string, page: number) => {
   const books = await Book.findAll({
@@ -31,6 +34,32 @@ export const searchByWord = async (word: string, page: number) => {
   );
 
   return result;
+};
+
+export const loanBook = async (bookLoan: IBookLoan) => {
+  const count = await Loan.count({
+    where: {
+      user_uuid: bookLoan.userUuid,
+    },
+  });
+  if (count >= 3) throw new HttpError(409, "already loaned 3books");
+
+  const { loanable, returnDate } = await getLoanState(
+    await Book.findOne({
+      where: {
+        id: bookLoan.id,
+      },
+    })
+  );
+  if (!loanable) throw new HttpError(400, "already loaned book");
+
+  await Loan.create({
+    uuid: "loan-" + (await mkId()),
+    userUuid: bookLoan.userUuid,
+    bookId: bookLoan.id,
+    createdAt: bookLoan.loanDate,
+    deletedAt: bookLoan.returnDate,
+  });
 };
 
 export const getBookInfo = async (id: string) => {
