@@ -2,6 +2,7 @@ import { HttpError } from "../exception/exception";
 import { IAdminAuthDTO, IWriteNoticeDTO } from "../interfaces/admin";
 import { User } from "../models/user";
 import { Notice } from "../models/notice";
+import { Loan } from "../models/loan";
 import { mkAccess } from "../utils/mkToken";
 import { hashPassword } from "../utils/hash";
 import { mkId } from "../utils/uuid";
@@ -127,4 +128,9 @@ export const getDelaiedBooksService = async (
     limit: 3,
     offset: (page - 1) * 3,
   });
+};
+
+export const returnBookService = async (admin: boolean, bookId: string) => {
+  await isAdmin(admin);
+  await Loan.destroy({ where: { bookId } });
 };
