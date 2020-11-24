@@ -106,7 +106,7 @@ export const getLonedBooksService = async (
   const user: User = await findOneUserByUuid(uuid);
   const loans = await Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.gte]: date } },
-    attributes: ["bookId", "userUuid"],
+    attributes: ["uuid", "bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
     limit: 3,
     offset: (page - 1) * 3,
@@ -124,14 +124,14 @@ export const getDelaiedBooksService = async (
   const user: User = await findOneUserByUuid(uuid);
   return Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.lt]: date } },
-    attributes: ["bookId", "userUuid"],
+    attributes: ["uuid", "bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
     limit: 3,
     offset: (page - 1) * 3,
   });
 };
 
-export const returnBookService = async (admin: boolean, bookId: string) => {
+export const returnBookService = async (admin: boolean, uuid: string) => {
   await isAdmin(admin);
-  await Loan.destroy({ where: { bookId } });
+  await Loan.destroy({ where: { uuid } });
 };

@@ -94,7 +94,7 @@ export const returnBook = async (
   next: NextFunction
 ) => {
   const admin: boolean = req["decoded"];
-  const bookId: string = req.params.id;
-  await AdminService.returnBookService(admin, bookId);
+  const uuid: string = req.params.id;
+  await AdminService.returnBookService(admin, uuid);
   res.status(200).end();
 };
