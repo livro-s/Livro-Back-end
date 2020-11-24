@@ -63,6 +63,7 @@ export const getBookLoans = async (uuid: string) => {
         loanDate: value.createdAt,
         returnDate: value.deletedAt,
         image: book.image,
+        location: book.location,
       };
     })
   );
