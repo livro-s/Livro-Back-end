@@ -27,6 +27,10 @@ Notice.init(
       type: Sequelize.STRING(50),
       allowNull: false,
     },
+    school: {
+      type: Sequelize.STRING(20),
+      allowNull: false,
+    },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
