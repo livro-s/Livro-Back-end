@@ -21,5 +21,15 @@ router.put(
   authMiddleware,
   tryCatchMiddleware.Error(AdminController.updateNotice)
 );
+router.get(
+  "/loan",
+  authMiddleware,
+  tryCatchMiddleware.Error(AdminController.getLonedBooks)
+);
+router.get(
+  "/loan/delay",
+  authMiddleware,
+  tryCatchMiddleware.Error(AdminController.getDelaiedBooks)
+);
 
 export default router;

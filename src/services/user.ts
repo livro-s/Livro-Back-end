@@ -32,3 +32,10 @@ export const findUser = async (userInfo: IUserLoginDTO) => {
 
   return await mkAccess(user.userId, user.admin, process.env.JWT_SECRET);
 };
+
+export const getUserInfoService = async (id: string): Promise<object> => {
+  return await User.findOne({
+    where: { uuid: id },
+    attributes: ["name", "studentNo"],
+  });
+};
