@@ -131,7 +131,7 @@ export const getDelaiedBooksService = async (
   });
 };
 
-export const returnBookService = async (admin: boolean, bookId: string) => {
+export const returnBookService = async (admin: boolean, uuid: string) => {
   await isAdmin(admin);
-  await Loan.destroy({ where: { bookId } });
+  await Loan.destroy({ where: { uuid } });
 };
