@@ -6,7 +6,7 @@ import { mkId } from "../utils/uuid";
 import { IBookLoan } from "../interfaces/book";
 
 export const searchByWord = async (word: string, page: number) => {
-  const books = await Book.findAll({
+  const { rows, count }: any = await Book.findAndCountAll({
     where: {
       title: {
         [Op.like]: `%${word}%`,
@@ -17,7 +17,7 @@ export const searchByWord = async (word: string, page: number) => {
   });
 
   const result = await Promise.all(
-    books.map(async (book) => {
+    rows.map(async (book) => {
       const { loanable, returnDate } = await getLoanState(book);
       return {
         id: book.id,
@@ -33,7 +33,7 @@ export const searchByWord = async (word: string, page: number) => {
     })
   );
 
-  return result;
+  return { book: result, pages: Math.ceil(count / 5) };
 };
 
 export const loanBook = async (bookLoan: IBookLoan) => {
