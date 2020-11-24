@@ -16,5 +16,10 @@ router.delete(
   authMiddleware,
   tryCatchMiddleware.Error(AdminController.deleteNotice)
 );
+router.put(
+  "/notice/:id",
+  authMiddleware,
+  tryCatchMiddleware.Error(AdminController.updateNotice)
+);
 
 export default router;
