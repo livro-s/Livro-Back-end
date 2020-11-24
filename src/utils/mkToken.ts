@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 
 export const mkAccess = async (
-  userId: string,
+  uuid: string,
   admin: boolean,
   secret: string
 ): Promise<string> => {
   const token = await jwt.sign(
     {
-      userId,
+      uuid,
       admin,
     },
     secret,

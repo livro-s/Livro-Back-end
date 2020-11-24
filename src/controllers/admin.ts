@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IAdminAuthDTO } from "../interfaces/admin";
+import { IAdminAuthDTO, IWriteNoticeDTO } from "../interfaces/admin";
 import * as AdminService from "../services/admin";
 
 export const adminAuth = async (
@@ -7,6 +7,18 @@ export const adminAuth = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = await AdminService.adminAuthService(req.body as IAdminAuthDTO);
+  const secret: string = req.app.get("jwt-secret");
+  const token = await AdminService.adminAuthService(
+    req.body as IAdminAuthDTO,
+    secret
+  );
   res.status(200).json(token);
+};
+
+export const writeNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { uuid, admin }: { uuid: string; admin: string } = req["decoded"];
 };

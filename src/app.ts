@@ -4,7 +4,7 @@ import morgan from "morgan";
 import * as dotenv from "dotenv";
 import path from "path";
 import { sequelize } from "./config/config";
-import routes from "routes";
+import routes from "./routes";
 
 dotenv.config({ path: path.join(__dirname, "../../.env") });
 
