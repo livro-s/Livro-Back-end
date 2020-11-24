@@ -49,13 +49,13 @@ export const loanBook = async (bookLoan: IBookLoan) => {
   });
   if (count >= 3) throw new HttpError(409, "already loaned 3books");
 
-  const { loanable, returnDate } = await getLoanState(
-    await Book.findOne({
-      where: {
-        id: bookLoan.id,
-      },
-    })
-  );
+  const book = await Book.findOne({
+    where: {
+      id: bookLoan.id,
+    },
+  });
+
+  const { loanable, returnDate } = await getLoanState(book);
   if (!loanable) throw new HttpError(400, "already loaned book");
 
   await Loan.create({
@@ -64,6 +64,7 @@ export const loanBook = async (bookLoan: IBookLoan) => {
     bookId: bookLoan.id,
     createdAt: bookLoan.loanDate,
     deletedAt: bookLoan.returnDate,
+    school: book.school,
   });
 };
 

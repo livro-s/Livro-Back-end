@@ -10,6 +10,7 @@ export class Book extends Model {
   category: string;
   location: string;
   image: string;
+  school: string;
 }
 
 Book.init(
