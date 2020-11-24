@@ -122,6 +122,7 @@ export const getLonedBooksService = async (
     limit: 3,
     offset: (page - 1) * 3,
   });
+  if (loans.length === 0) throw new HttpError(400, "No Loan");
   return loans;
 };
 
@@ -133,7 +134,7 @@ export const getDelaiedBooksService = async (
 ): Promise<object> => {
   await isAdmin(admin);
   const user: User = await findOneUserByUuid(uuid);
-  return Loan.findAll({
+  const loans = await Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.lt]: date } },
     attributes: ["uuid"],
     include: [
@@ -150,6 +151,8 @@ export const getDelaiedBooksService = async (
     limit: 3,
     offset: (page - 1) * 3,
   });
+  if (loans.length === 0) throw new HttpError(400, "No Loan");
+  return loans;
 };
 
 export const returnBookService = async (admin: boolean, uuid: string) => {
