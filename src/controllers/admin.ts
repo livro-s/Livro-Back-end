@@ -72,7 +72,7 @@ export const getLonedBooks = async (
   res.status(200).json(books);
 };
 
-export const getDelaieddBooks = async (
+export const getDelaiedBooks = async (
   req: Request,
   res: Response,
   next: NextFunction
