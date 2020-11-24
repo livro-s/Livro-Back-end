@@ -30,7 +30,7 @@ export const findUser = async (userInfo: IUserLoginDTO) => {
 
   if (!user) throw new HttpError(400, "Wrong loginInfo");
 
-  return await mkAccess(user.userId, user.admin, process.env.JWT_SECRET);
+  return await mkAccess(user.uuid, user.admin, process.env.JWT_SECRET);
 };
 
 export const getUserInfoService = async (id: string): Promise<object> => {
