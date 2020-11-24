@@ -59,3 +59,23 @@ export const writeNoticeService = async (
     school: user.school,
   });
 };
+
+export const deleteNoticeService = async (
+  noticeId: string,
+  uuid: string,
+  admin: boolean
+) => {
+  await isAdmin(admin);
+  const notice: Notice = await findOneNotice(noticeId);
+  if (notice.userUuid !== uuid)
+    throw new HttpError(409, "Not My School Notice");
+  await notice.destroy();
+};
+
+const findOneNotice = async (noticeId: string): Promise<Notice> => {
+  try {
+    return await Notice.findOne({ where: { uuid: noticeId } });
+  } catch (e) {
+    throw new HttpError(404, "User Not Found");
+  }
+};
