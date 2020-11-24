@@ -25,3 +25,14 @@ export const getNoticeListService = async (
     offset: (page - 1) * 3,
   });
 };
+
+export const getDetailNoticeService = async (uuid: string): Promise<object> => {
+  try {
+    return await Notice.findOne({
+      where: { uuid },
+      attributes: ["uuid", "title", "content", "createdAt"],
+    });
+  } catch (e) {
+    throw new HttpError(404, "Notice Not Found");
+  }
+};
