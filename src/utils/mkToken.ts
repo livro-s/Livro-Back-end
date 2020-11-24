@@ -12,25 +12,7 @@ export const mkAccess = async (
     },
     secret,
     {
-      expiresIn: "10m",
-    }
-  );
-  return token;
-};
-
-export const mkRefresh = async (
-  userId: string,
-  admin: boolean,
-  secret: string
-): Promise<string> => {
-  const token = await jwt.sign(
-    {
-      userId,
-      admin,
-    },
-    secret,
-    {
-      expiresIn: "1w",
+      expiresIn: "50000m",
     }
   );
   return token;

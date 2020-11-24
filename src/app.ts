@@ -19,7 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.set("jwt-secret", process.env.JWT_SECRET);
-app.set("refresh-secret", process.env.REFRESH_SECRET);
 
 app.use("/", routes);
 
