@@ -32,7 +32,7 @@ export const getUserInfo = async (
   res: Response,
   next: NextFunction
 ) => {
-  const uuid: string = req.params.id;
+  const uuid = req["decoded"]["uuid"];
   const user: any = await getUserInfoService(uuid);
   res.status(200).json(user);
 };

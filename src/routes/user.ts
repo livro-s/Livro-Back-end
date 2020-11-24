@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/", tryCatchMiddleware.Error(login));
 router.post("/new", tryCatchMiddleware.Error(register));
+router.get("/", authMiddleware, tryCatchMiddleware.Error(getUserInfo));
 router.get("/loans", authMiddleware, tryCatchMiddleware.Error(getLoanList));
-router.get("/:id", authMiddleware, tryCatchMiddleware.Error(getUserInfo));
 
 export default router;
