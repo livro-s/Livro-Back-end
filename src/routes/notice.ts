@@ -10,11 +10,15 @@ router.get(
   authMiddleware,
   tryCatchMiddleware.Error(NoticeController.getLatestNotice)
 );
-
 router.get(
   "/",
   authMiddleware,
   tryCatchMiddleware.Error(NoticeController.getNoticeList)
+);
+router.get(
+  "/:id",
+  authMiddleware,
+  tryCatchMiddleware.Error(NoticeController.getDetailNotice)
 );
 
 export default router;

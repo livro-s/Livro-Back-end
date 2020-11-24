@@ -21,3 +21,13 @@ export const getNoticeList = async (
   const noticeList = await NoticeService.getNoticeListService(uuid, page);
   res.status(200).json(noticeList);
 };
+
+export const getDetailNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const uuid: string = req.params.id;
+  const notice = await NoticeService.getDetailNoticeService(uuid);
+  res.status(200).json(notice);
+};
