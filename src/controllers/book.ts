@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { getUserByUuid } from "../services/user";
 import { IBookLoan } from "../interfaces/book";
 import { searchByWord, loanBook, getBookInfo } from "../services/book";
 
@@ -9,8 +10,9 @@ export const searchBook = async (
 ) => {
   let { search, page }: any = req.query;
   if (page == undefined) page = 1;
+  const user = await getUserByUuid(req["decoded"]["uuid"]);
 
-  const books = await searchByWord(search, page);
+  const books = await searchByWord(search, page, user.school);
   res.status(200).json(books);
 };
 

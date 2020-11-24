@@ -5,12 +5,17 @@ import { HttpError } from "../exception/exception";
 import { mkId } from "../utils/uuid";
 import { IBookLoan } from "../interfaces/book";
 
-export const searchByWord = async (word: string, page: number) => {
+export const searchByWord = async (
+  word: string,
+  page: number,
+  school: string
+) => {
   const { rows, count }: any = await Book.findAndCountAll({
     where: {
       title: {
         [Op.like]: `%${word}%`,
       },
+      school: school,
     },
     limit: 5,
     offset: (page - 1) * 5,
