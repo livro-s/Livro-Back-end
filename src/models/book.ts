@@ -9,6 +9,7 @@ export class Book extends Model {
   publisher: string;
   category: string;
   location: string;
+  image: string;
 }
 
 Book.init(
