@@ -28,3 +28,30 @@ export const writeNotice = async (
   );
   res.status(201).end();
 };
+
+export const deleteNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const noticeId: string = req.params.id;
+  const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
+  await AdminService.deleteNoticeService(noticeId, uuid, admin);
+  res.status(204).end();
+};
+
+export const updateNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const noticeId: string = req.params.id;
+  const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
+  await AdminService.updateNoticeService(
+    req.body as IWriteNoticeDTO,
+    noticeId,
+    uuid,
+    admin
+  );
+  res.status(200).end();
+};

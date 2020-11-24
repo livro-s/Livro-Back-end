@@ -26,6 +26,14 @@ const findOneUser = async (userId: string): Promise<User> => {
   }
 };
 
+const findOneUserByUuid = async (uuid: string): Promise<User> => {
+  try {
+    return User.findOne({ where: { uuid } });
+  } catch (e) {
+    throw new HttpError(404, "User Not Found");
+  }
+};
+
 const isAdmin = async (admin: boolean) => {
   if (!admin) throw new HttpError(409, "User Not Admin");
 };
@@ -41,11 +49,47 @@ export const writeNoticeService = async (
 ) => {
   const noticeId = "notice-" + (await mkId());
   const { title, content }: IWriteNoticeDTO = writeNoticeDTO;
+  const user: User = await findOneUserByUuid(uuid);
   await isAdmin(admin);
   await Notice.create({
     uuid: noticeId,
     title,
     content,
     userUuid: uuid,
+    school: user.school,
   });
+};
+
+export const deleteNoticeService = async (
+  noticeId: string,
+  uuid: string,
+  admin: boolean
+) => {
+  await isAdmin(admin);
+  const notice: Notice = await findOneNotice(noticeId);
+  if (notice.userUuid !== uuid)
+    throw new HttpError(409, "Not My School Notice");
+  await notice.destroy();
+};
+
+export const updateNoticeService = async (
+  updateNoticeDTO: IWriteNoticeDTO,
+  noticeId: string,
+  uuid: string,
+  admin: boolean
+) => {
+  const { title, content }: IWriteNoticeDTO = updateNoticeDTO;
+  await isAdmin(admin);
+  const notice: Notice = await findOneNotice(noticeId);
+  if (notice.userUuid !== uuid)
+    throw new HttpError(409, "Not My School Notice");
+  await notice.update({ title, content });
+};
+
+const findOneNotice = async (noticeId: string): Promise<Notice> => {
+  try {
+    return await Notice.findOne({ where: { uuid: noticeId } });
+  } catch (e) {
+    throw new HttpError(404, "User Not Found");
+  }
 };
