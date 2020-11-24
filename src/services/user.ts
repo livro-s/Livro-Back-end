@@ -42,6 +42,12 @@ export const getUserInfoService = async (id: string): Promise<object> => {
   });
 };
 
+export const getUserByUuid = async (id: string) => {
+  return await User.findOne({
+    where: { uuid: id },
+  });
+};
+
 export const getBookLoans = async (uuid: string) => {
   const list = await Loan.findAll({
     where: {
