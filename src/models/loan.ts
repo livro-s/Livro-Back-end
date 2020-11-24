@@ -25,6 +25,10 @@ Loan.init(
       allowNull: false,
       field: "book_id",
     },
+    school: {
+      type: Sequelize.STRING(20),
+      allowNull: false,
+    },
     createdAt: {
       type: Sequelize.STRING(30),
       field: "created_at",

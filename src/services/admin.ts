@@ -104,7 +104,7 @@ export const getLonedBooksService = async (
 ): Promise<object> => {
   await isAdmin(admin);
   const user: User = await findOneUserByUuid(uuid);
-  return Notice.findAll({
+  return Loan.findAll({
     where: { school: user.school, deletedAt: { [Op.lte]: date } },
     attributes: ["bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
@@ -121,7 +121,7 @@ export const getDelaiedBooksService = async (
 ): Promise<object> => {
   await isAdmin(admin);
   const user: User = await findOneUserByUuid(uuid);
-  return Notice.findAll({
+  return Loan.findAll({
     where: { school: user.school, [Op.gt]: date },
     attributes: ["bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
