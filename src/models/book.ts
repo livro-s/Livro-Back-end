@@ -37,6 +37,11 @@ Book.init(
       type: Sequelize.STRING(40),
       allowNull: false,
     },
+    image: {
+      type: Sequelize.STRING(200),
+      defaultValue:
+        "https://olio-image.s3.us-east-2.amazonaws.com/livro/book.jfif",
+    },
   },
   {
     sequelize,
