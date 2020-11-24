@@ -26,7 +26,7 @@ const findOneUser = async (userId: string): Promise<User> => {
   }
 };
 
-const findOneUserByUuid = async (uuid: string): Promise<User> => {
+export const findOneUserByUuid = async (uuid: string): Promise<User> => {
   try {
     return User.findOne({ where: { uuid } });
   } catch (e) {
