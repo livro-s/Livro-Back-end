@@ -5,7 +5,7 @@ import { hashPassword } from "utils/hash";
 import { mkId } from "utils/uuid";
 import { mkAccess } from "utils/mkToken";
 
-export const register = async (userInfo: IUserAuthDTO) => {
+export const createUser = async (userInfo: IUserAuthDTO) => {
   userInfo.password = await hashPassword(userInfo.password);
   userInfo.uuid = "user-" + mkId();
 
@@ -20,7 +20,7 @@ export const register = async (userInfo: IUserAuthDTO) => {
   return await User.create(userInfo);
 };
 
-export const login = async (userInfo: IUserLoginDTO) => {
+export const findUser = async (userInfo: IUserLoginDTO) => {
   const user = await User.findOne({
     where: {
       userId: userInfo.userId,
