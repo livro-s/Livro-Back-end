@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { IUserAuthDTO, IUserLoginDTO } from "interfaces/user";
-import { createUser, findUser } from "../services/user";
+import { createUser, findUser, getUserInfo } from "../services/user";
 
 export const register = async (
   req: Request,
@@ -20,4 +20,13 @@ export const login = async (
   res.status(200).json({
     accessToken: token,
   });
+};
+
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userInfo = await getUserInfo(req["decoded"]["uuid"]);
+  res.status(200).json(userInfo);
 };
