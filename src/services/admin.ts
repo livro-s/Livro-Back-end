@@ -72,6 +72,20 @@ export const deleteNoticeService = async (
   await notice.destroy();
 };
 
+export const updateNoticeService = async (
+  updateNoticeDTO: IWriteNoticeDTO,
+  noticeId: string,
+  uuid: string,
+  admin: boolean
+) => {
+  const { title, content }: IWriteNoticeDTO = updateNoticeDTO;
+  await isAdmin(admin);
+  const notice: Notice = await findOneNotice(noticeId);
+  if (notice.userUuid !== uuid)
+    throw new HttpError(409, "Not My School Notice");
+  await notice.update({ title, content });
+};
+
 const findOneNotice = async (noticeId: string): Promise<Notice> => {
   try {
     return await Notice.findOne({ where: { uuid: noticeId } });
