@@ -55,3 +55,35 @@ export const updateNotice = async (
   );
   res.status(200).end();
 };
+
+export const getLonedBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
+  const { page, date }: any = req.query;
+  const books = await AdminService.getLonedBooksService(
+    uuid,
+    admin,
+    page,
+    date
+  );
+  res.status(200).json(books);
+};
+
+export const getDelaiedBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
+  const { page, date }: any = req.query;
+  const books = await AdminService.getLonedBooksService(
+    uuid,
+    admin,
+    page,
+    date
+  );
+  res.status(200).json(books);
+};
