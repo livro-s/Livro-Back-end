@@ -115,7 +115,7 @@ export const getLonedBooksService = async (
       },
       {
         model: Book,
-        attributes: ["title", "author", "publisher", "category"],
+        attributes: ["title", "author", "publisher", "category", "image"],
       },
     ],
     order: [["createdAt", "DESC"]],
@@ -144,7 +144,7 @@ export const getDelaiedBooksService = async (
       },
       {
         model: Book,
-        attributes: ["title", "author", "publisher", "category"],
+        attributes: ["title", "author", "publisher", "category", "image"],
       },
     ],
     order: [["createdAt", "DESC"]],
