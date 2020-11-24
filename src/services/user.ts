@@ -7,7 +7,7 @@ import { mkAccess } from "../utils/mkToken";
 
 export const createUser = async (userInfo: IUserAuthDTO) => {
   userInfo.password = await hashPassword(userInfo.password);
-  userInfo.uuid = "user-" + mkId();
+  userInfo.uuid = "user-" + (await mkId());
 
   const existingUser = await User.findOne({
     where: {
