@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { PassThrough } from "stream";
-import { searchByWord } from "../services/book";
+import { IBookLoan } from "../interfaces/book";
+import { searchByWord, loanBook } from "../services/book";
 
 export const searchBook = async (
   req: Request,
@@ -12,4 +12,14 @@ export const searchBook = async (
 
   const books = await searchByWord(search, page);
   res.status(200).json(books);
+};
+
+export const borrowBook = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  req.body["userUuid"] = req["decoded"]["uuid"];
+  await loanBook(req.body as IBookLoan);
+  res.status(201).end();
 };
