@@ -26,6 +26,7 @@ Notice.init(
     userUuid: {
       type: Sequelize.STRING(50),
       allowNull: false,
+      field: "user_uuid",
     },
     school: {
       type: Sequelize.STRING(20),
