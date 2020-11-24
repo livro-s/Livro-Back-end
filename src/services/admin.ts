@@ -5,6 +5,7 @@ import { Notice } from "../models/notice";
 import { mkAccess } from "../utils/mkToken";
 import { hashPassword } from "../utils/hash";
 import { mkId } from "../utils/uuid";
+import { Op } from "sequelize";
 
 export const adminAuthService = async (
   adminAuthDTO: IAdminAuthDTO,
@@ -92,4 +93,38 @@ const findOneNotice = async (noticeId: string): Promise<Notice> => {
   } catch (e) {
     throw new HttpError(404, "User Not Found");
   }
+};
+
+export const getLonedBooksService = async (
+  uuid: string,
+  admin: boolean,
+  page: any,
+  date: any
+): Promise<object> => {
+  await isAdmin(admin);
+  const user: User = await findOneUserByUuid(uuid);
+  return Notice.findAll({
+    where: { school: user.school, deletedAt: { [Op.lte]: date } },
+    attributes: ["bookId", "userUuid"],
+    order: [["createdAt", "DESC"]],
+    limit: 3,
+    offset: (page - 1) * 3,
+  });
+};
+
+export const getDelaiedBooksService = async (
+  uuid: string,
+  admin: boolean,
+  page: any,
+  date: any
+): Promise<object> => {
+  await isAdmin(admin);
+  const user: User = await findOneUserByUuid(uuid);
+  return Notice.findAll({
+    where: { school: user.school, [Op.gt]: date },
+    attributes: ["bookId", "userUuid"],
+    order: [["createdAt", "DESC"]],
+    limit: 3,
+    offset: (page - 1) * 3,
+  });
 };
