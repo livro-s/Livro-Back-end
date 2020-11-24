@@ -8,11 +8,11 @@ export const adminAuth = async (
   next: NextFunction
 ) => {
   const secret: string = req.app.get("jwt-secret");
-  const token = await AdminService.adminAuthService(
+  const accessToken = await AdminService.adminAuthService(
     req.body as IAdminAuthDTO,
     secret
   );
-  res.status(200).json(token);
+  res.status(200).json({ accessToken });
 };
 
 export const writeNotice = async (
@@ -20,5 +20,11 @@ export const writeNotice = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { uuid, admin }: { uuid: string; admin: string } = req["decoded"];
+  const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
+  await AdminService.writeNoticeService(
+    req.body as IWriteNoticeDTO,
+    uuid,
+    admin
+  );
+  res.status(201).end();
 };
