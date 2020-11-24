@@ -23,10 +23,6 @@ Notice.init(
     content: {
       type: Sequelize.STRING(500),
     },
-    coverImg: {
-      type: Sequelize.STRING(50),
-      field: "cover_img",
-    },
     userUuid: {
       type: Sequelize.STRING(50),
       allowNull: false,
