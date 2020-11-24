@@ -104,13 +104,14 @@ export const getLonedBooksService = async (
 ): Promise<object> => {
   await isAdmin(admin);
   const user: User = await findOneUserByUuid(uuid);
-  return Loan.findAll({
-    where: { school: user.school, deletedAt: { [Op.lte]: date } },
+  const loans = await Loan.findAll({
+    where: { school: user.school, deletedAt: { [Op.gte]: date } },
     attributes: ["bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
     limit: 3,
     offset: (page - 1) * 3,
   });
+  return loans;
 };
 
 export const getDelaiedBooksService = async (
@@ -122,7 +123,7 @@ export const getDelaiedBooksService = async (
   await isAdmin(admin);
   const user: User = await findOneUserByUuid(uuid);
   return Loan.findAll({
-    where: { school: user.school, [Op.gt]: date },
+    where: { school: user.school, deletedAt: { [Op.lt]: date } },
     attributes: ["bookId", "userUuid"],
     order: [["createdAt", "DESC"]],
     limit: 3,

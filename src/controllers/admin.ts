@@ -79,7 +79,7 @@ export const getDelaiedBooks = async (
 ) => {
   const { uuid, admin }: { uuid: string; admin: boolean } = req["decoded"];
   const { page, date }: any = req.query;
-  const books = await AdminService.getLonedBooksService(
+  const books = await AdminService.getDelaiedBooksService(
     uuid,
     admin,
     page,
